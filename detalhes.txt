@@ -1,0 +1,30 @@
+aqui fica o index
+
+//forma de fazer os includes das dependencias
+//express mini framework para rotas
+const express = require('express');
+//orm para conexão com o mongodb
+const mongoose = require('mongoose');
+const cors = require('cors');
+//require-dir para fazer o require de um diretorio inteiro
+const requireDir = require('require-dir');
+
+
+// iniciando o app com express
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+// iniciando o DB
+mongoose.connect(
+    'mongodb+srv://Rafaeltr:84563206@cluster0-c64gn.mongodb.net/nodeapi',
+     {useUnifiedTopology: true,useNewUrlParser: true}
+);
+requireDir('./src/models')
+
+
+
+//o use recebe qualquer tipo de requisição
+app.use('/api',require('./src/routes'));
+const PORT = process.env.PORT || 3001
+app.listen(PORT)
